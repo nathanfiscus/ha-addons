@@ -10,8 +10,10 @@ RUN \
 
 RUN \
     apk add --no-cache \
-        python3
-        pip3
+        python3 \
+        python3-pip
+
+RUN pip install --upgrade pip
 
 RUN pip install --no-cache-dir \
         cryptography \
