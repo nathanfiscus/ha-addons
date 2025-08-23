@@ -7,7 +7,7 @@
 if bashio::config 'debug'; then
   #p print out the config for debugging purposes
   bashio::log.info "Current configuration:"
-  bashio::config.dump
+  bashio::log.info "$(bashio::config)"
 fi
 
 
