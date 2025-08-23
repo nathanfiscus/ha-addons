@@ -11,17 +11,12 @@ RUN \
 RUN \
     apk add --no-cache \
         python3 \
-        py-pip
-
-RUN pip install --upgrade pip
-
-RUN pip install --no-cache-dir \
-        cryptography \
-        pyasyncore \
-        boto3 \
-        prompt_toolkit \
-        google-auth \
-        requests
+        py3-cryptography \
+        py3-pyasyncore \
+        py3-boto3 \
+        py3-prompt_toolkit \
+        py3-google-auth \
+        py3-requests
 
 WORKDIR /usr/bin
 RUN curl -o emailproxy.py https://raw.githubusercontent.com/simonrob/email-oauth2-proxy/main/emailproxy.py
