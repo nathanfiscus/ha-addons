@@ -26,11 +26,4 @@ options:
 ports:
   1993/imap: 1993
 schema:
-  accounts:
-    - email: str
-      permission_url: str
-      token_url: str
-      oauth2_scope: str
-      redirect_uri: str
-      client_id: str
-      client_secret: str?
+  accounts: []
