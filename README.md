@@ -1,4 +1,4 @@
-# Example Home Assistant add-on repository
+# OAuth Mail Proxy Addon For Home Assistant
 
 This repository can be used as a "blueprint" for add-on development to help you get started.
 
