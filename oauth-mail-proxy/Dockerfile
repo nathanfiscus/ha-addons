@@ -12,7 +12,6 @@ RUN \
     apk add --no-cache \
         python3 \
         py3-cryptography \
-        py3-pyasyncore \
         py3-boto3 \
         py3-prompt_toolkit \
         py3-google-auth \
