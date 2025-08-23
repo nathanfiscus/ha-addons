@@ -3,7 +3,7 @@ name: OAuth Mail Proxy
 version: "1.0.0"
 slug: oauth-mail-proxy
 description: Mail proxy to allow OAuth authentication with IMAP/SMTP calls
-url: "https://github.com/home-assistant//tree/main/example"
+url: "https://github.com/nathanfiscus/ha-addons/tree/main/oauth-mail-proxy"
 arch:
   - armhf
   - armv7
