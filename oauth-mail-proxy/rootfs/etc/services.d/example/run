@@ -4,15 +4,17 @@
 # s6-overlay docs: https://github.com/just-containers/s6-overlay
 # ==============================================================================
 
-# Add your code here
+if bashio::config.get 'debug'; then
+  #p print out the config for debugging purposes
+  bashio::log.info "Current configuration:"
+  bashio::config.dump
+fi
+
 
 #insert the account options into the config file
 if bashio::config.has_value 'accounts'; then
     bashio::log.info "Adding configured accounts to emailproxy.config"
-    bashio::config.require.supervisor
     CONFIG_FILE="/etc/oauth-mail-proxy/emailproxy.config"
-    # Clear out existing accounts section
-    sed -i '/^\[accounts\]/,/^\[/d' "$CONFIG_FILE"
     echo "[accounts]" >> "$CONFIG_FILE"
     # Loop through each account and append to config file
     for account in $(bashio::config 'accounts'); do
@@ -24,15 +26,15 @@ if bashio::config.has_value 'accounts'; then
         client_id=$(bashio::jq "${account}.client_id" -r)
         client_secret=$(bashio::jq "${account}.client_secret" -r) # May be null
         echo "" >> "$CONFIG_FILE"
-        echo "[[accounts.account]]" >> "$CONFIG_FILE"
-        echo "email = \"$email\"" >> "$CONFIG_FILE"
-        echo "permission_url = \"$permission_url\"" >> "$CONFIG_FILE"
-        echo "token_url = \"$token_url\"" >> "$CONFIG_FILE"
-        echo "oauth2_scope = \"$oauth2_scope\"" >> "$CONFIG_FILE"
-        echo "redirect_uri = \"$redirect_uri\"" >> "$CONFIG_FILE"
-        echo "client_id = \"$client_id\"" >> "$CONFIG_FILE"
+        echo " [[accounts.account]]" >> "$CONFIG_FILE"
+        echo "  email = \"$email\"" >> "$CONFIG_FILE"
+        echo "  permission_url = \"$permission_url\"" >> "$CONFIG_FILE"
+        echo "  token_url = \"$token_url\"" >> "$CONFIG_FILE"
+        echo "  oauth2_scope = \"$oauth2_scope\"" >> "$CONFIG_FILE"
+        echo "  redirect_uri = \"$redirect_uri\"" >> "$CONFIG_FILE"
+        echo "  client_id = \"$client_id\"" >> "$CONFIG_FILE"
         if [ -n "$client_secret" ] && [ "$client_secret" != "null" ]; then
-            echo "client_secret = \"$client_secret\"" >> "$CONFIG_FILE"
+            echo "  client_secret = \"$client_secret\"" >> "$CONFIG_FILE"
         fi
     done
     if bashio::config.get 'debug'; then
