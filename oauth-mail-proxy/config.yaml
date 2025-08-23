@@ -15,6 +15,7 @@ init: false
 map:
   - share:rw
 options:
+  debug: false
   accounts:
     - email: example@outlook.com
       permission_url: https://login.microsoftonline.com/common/oauth2/v2.0/authorize
@@ -27,6 +28,7 @@ ports:
   1993/tcp: 1993
   8080/tcp: 8080
 schema:
+  debug: bool
   accounts:
     - email: str
       permission_url: str

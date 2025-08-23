@@ -8,5 +8,21 @@ RUN \
     curl -sSLf -o /usr/bin/tempio \
     "https://github.com/home-assistant/tempio/releases/download/${TEMPIO_VERSION}/tempio_${BUILD_ARCH}"
 
+RUN \
+    apk add --no-cache \
+        python3
+
+RUN pip install --no-cache-dir \
+        cryptography \
+        pyasyncore \
+        boto3 \
+        prompt_toolkit \
+        google-auth \
+        requests
+        
+WORKDIR /usr/bin
+RUN curl -o emailproxy.py https://raw.githubusercontent.com/simonrob/email-oauth2-proxy/main/emailproxy.py
+
 # Copy root filesystem
 COPY rootfs /
+

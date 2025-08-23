@@ -6,14 +6,42 @@
 
 # Add your code here
 
-# Declare variables
-declare message
-
-## Get the 'message' key from the user config options.
-message=$(bashio::config 'message')
-
-## Print the message the user supplied, defaults to "Hello World..."
-bashio::log.info "${message:="Hello World..."}"
-
+#insert the account options into the config file
+if bashio::config.has_value 'accounts'; then
+    bashio::log.info "Adding configured accounts to emailproxy.config"
+    bashio::config.require.supervisor
+    CONFIG_FILE="/etc/oauth-mail-proxy/emailproxy.config"
+    # Clear out existing accounts section
+    sed -i '/^\[accounts\]/,/^\[/d' "$CONFIG_FILE"
+    echo "[accounts]" >> "$CONFIG_FILE"
+    # Loop through each account and append to config file
+    for account in $(bashio::config 'accounts'); do
+        email=$(bashio::jq "${account}.email" -r)
+        permission_url=$(bashio::jq "${account}.permission_url" -r)
+        token_url=$(bashio::jq "${account}.token_url" -r)
+        oauth2_scope=$(bashio::jq "${account}.oauth2_scope" -r)
+        redirect_uri=$(bashio::jq "${account}.redirect_uri" -r)
+        client_id=$(bashio::jq "${account}.client_id" -r)
+        client_secret=$(bashio::jq "${account}.client_secret" -r) # May be null
+        echo "" >> "$CONFIG_FILE"
+        echo "[[accounts.account]]" >> "$CONFIG_FILE"
+        echo "email = \"$email\"" >> "$CONFIG_FILE"
+        echo "permission_url = \"$permission_url\"" >> "$CONFIG_FILE"
+        echo "token_url = \"$token_url\"" >> "$CONFIG_FILE"
+        echo "oauth2_scope = \"$oauth2_scope\"" >> "$CONFIG_FILE"
+        echo "redirect_uri = \"$redirect_uri\"" >> "$CONFIG_FILE"
+        echo "client_id = \"$client_id\"" >> "$CONFIG_FILE"
+        if [ -n "$client_secret" ] && [ "$client_secret" != "null" ]; then
+            echo "client_secret = \"$client_secret\"" >> "$CONFIG_FILE"
+        fi
+    done
+    if bashio::config.get 'debug'; then
+        bashio::log.info "Debug mode is enabled. Current configuration:"
+        cat "$CONFIG_FILE"
+    fi
+else
+    bashio::log.warning "No accounts configured. Please add at least one account in the add-on configuration."
+    exit 1
+fi
 ## Run your program
-exec /usr/bin/my_program
+exec /usr/bin/oauth-mail-proxy
