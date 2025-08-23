@@ -6,7 +6,7 @@ build_from:
   armv7: ghcr.io/home-assistant/armv7-base:3.22
   i386: ghcr.io/home-assistant/i386-base:3.22
 labels:
-  org.opencontainers.image.title: "OAuth2 Mail Proxy"
+  org.opencontainers.image.title: "HA OAuth2 Mail Proxy"
   org.opencontainers.image.description: "Email proxy to allow OAuth2 authentication with IMAP/SMTP calls"
   org.opencontainers.image.source: "https://github.com/nathanfiscus/ha-addons/oauth-mail-proxy"
   org.opencontainers.image.licenses: "Apache License 2.0"
