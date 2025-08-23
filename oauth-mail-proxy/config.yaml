@@ -24,6 +24,6 @@ options:
   #     client_id: "*** your client id here ***""
   #     client_secret: "*** your client secret here (remove this entire line if a secret is not required) ***""
 ports:
-  1993/imap: 1993
+  1993/tcp: 1993
 schema:
   accounts: []
