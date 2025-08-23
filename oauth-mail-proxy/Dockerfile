@@ -11,7 +11,7 @@ RUN \
 RUN \
     apk add --no-cache \
         python3 \
-        python3-pip
+        py-pip
 
 RUN pip install --upgrade pip
 
