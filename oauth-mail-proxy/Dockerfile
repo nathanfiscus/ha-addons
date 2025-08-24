@@ -10,7 +10,7 @@ RUN \
 
 RUN \
     apk add --no-cache \
-        python3 \
+        'python3=~3.11' \
         py3-cryptography \
         py3-boto3 \
         py3-prompt_toolkit \
