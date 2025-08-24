@@ -12,6 +12,8 @@ if bashio::config.has_value 'accounts'; then
     echo "" >> "$CONFIG_FILE"
     echo "" >> "$CONFIG_FILE"
     echo "[accounts]" >> "$CONFIG_FILE"
+    CONFIG= bashio::config 'accounts';
+    bashio:log.info "$CONFIG";
     # Loop through each account and append to config file
     for account in $(bashio::config 'accounts'); do
         bashio::log.info "Processing account: $account"
@@ -21,7 +23,7 @@ if bashio::config.has_value 'accounts'; then
         bashio::log.info "Permission URL: $permission_url"
         token_url=$(bashio::jq "${account}.token_url" -r)
         bashio::log.info "Token URL: $token_url"
-        oauth2_scope=$(bashio::jq "${account}.oauth2_scope" -r)
+        oauth2_scope=$(bashio::jq "${account}.oauth2_scope" -r | xargs) # Convert array to space-separated string
         bashio::log.info "OAuth2 Scope: $oauth2_scope"
         redirect_uri=$(bashio::jq "${account}.redirect_uri" -r)
         bashio::log.info "Redirect URI: $redirect_uri"
