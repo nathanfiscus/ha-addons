@@ -10,12 +10,15 @@ RUN \
 
 RUN \
     apk add --no-cache \
-        'python3=~3.11' \
+        python3 \
         py3-cryptography \
         py3-boto3 \
         py3-prompt_toolkit \
         py3-google-auth \
         py3-requests
+
+RUN python3 -m ensurepip
+RUN pip3 install pyasyncore 
 
 RUN curl -o /usr/bin/emailproxy.py https://raw.githubusercontent.com/simonrob/email-oauth2-proxy/main/emailproxy.py
 
