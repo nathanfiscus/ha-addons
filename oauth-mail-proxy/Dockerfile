@@ -10,16 +10,11 @@ RUN \
 
 RUN \
     apk add --no-cache \
-        python3 \
-        py3-cryptography \
-        py3-boto3 \
-        py3-prompt_toolkit \
-        py3-google-auth \
-        py3-requests
+        python3 
 
 RUN python -m venv venv
 RUN /bin/bash -c "source /venv/bin/activate"
-RUN /venv/bin/pip install pyasyncore 
+RUN /venv/bin/pip install pyasyncore cryptography google-auth requests boto3 prompt_toolkit
 
 RUN curl -o /usr/bin/emailproxy.py https://raw.githubusercontent.com/simonrob/email-oauth2-proxy/main/emailproxy.py
 
