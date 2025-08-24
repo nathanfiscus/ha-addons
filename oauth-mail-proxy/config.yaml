@@ -1,6 +1,6 @@
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-config
 name: OAuth Mail Proxy
-version: "1.0.19"
+version: "1.0.20"
 slug: oauth-mail-proxy
 description: Mail proxy to allow OAuth authentication with IMAP/SMTP calls
 url: "https://github.com/nathanfiscus/ha-addons/tree/main/oauth-mail-proxy"
