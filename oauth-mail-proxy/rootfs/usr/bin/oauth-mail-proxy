@@ -2,8 +2,8 @@
 
 # Set default values for external_auth, local_auth, debug, cache_store, and logfile
 EXTERNAL_AUTH_VALUE=""
-LOCAL_SERVER_AUTH_VALUE="true"
-DEBUG_VALUE="true"
+LOCAL_SERVER_AUTH_VALUE=""
+DEBUG_VALUE=""
 CACHE_STORE_VALUE=""
 LOG_FILE_PATH=""
 
@@ -28,7 +28,7 @@ LOG_FILE_PATH="/etc/oauth-mail-proxy/emailproxy.log"
 
 
 # Execute the Python script with arguments
-/venv/bin/python /usr/bin/emailproxy.py --no-gui --log-file $LOG_FILE_PATH --config-file /etc/oauth-mail-proxy/emailproxy.config --debug &
+/venv/bin/python /usr/bin/emailproxy.py --no-gui --log-file $LOG_FILE_PATH --config-file /etc/oauth-mail-proxy/emailproxy.config --debug $LOCAL_SERVER_AUTH_VALUE $EXTERNAL_AUTH_VALUE &
 
 # Wait for the log file to be created
 while [ ! -f $LOG_FILE_PATH ]; do
