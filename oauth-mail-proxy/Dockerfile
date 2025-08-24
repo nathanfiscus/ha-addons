@@ -17,8 +17,9 @@ RUN \
         py3-google-auth \
         py3-requests
 
-RUN python3 -m ensurepip
-RUN pip3 install pyasyncore 
+RUN python -m venv venv
+RUN /bin/bash -c "source venv/bin/activate"
+RUN ./venv/bin/pip install pyasyncore 
 
 RUN curl -o /usr/bin/emailproxy.py https://raw.githubusercontent.com/simonrob/email-oauth2-proxy/main/emailproxy.py
 
