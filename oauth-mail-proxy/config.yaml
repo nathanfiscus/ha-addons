@@ -38,7 +38,7 @@ schema:
       permission_url: str
       token_url: str
       oauth2_scope:
-        - "str*"
+        - str
       redirect_uri: str
       client_id: str
       client_secret: "str?"
