@@ -27,7 +27,7 @@ if bashio::config.has_value 'accounts'; then
         bashio::log.info "Redirect URI: $redirect_uri"
         client_id=$(bashio::jq "$account ".client_id" -r)
         bashio::log.info "Client ID: $client_id"
-        client_secret=$(bashio::jq "$account ".client_secret" -r) # May be null
+        client_secret=$(bashio::jq $account ".client_secret" -r) # May be null
         bashio::log.info "Client Secret: ${client_secret:0:4}****" # Only log first 4 chars for security
         
         echo "" >> "$CONFIG_FILE"
