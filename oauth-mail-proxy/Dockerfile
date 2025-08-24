@@ -17,7 +17,7 @@ RUN \
         py3-google-auth \
         py3-requests
 
-RUN curl -o /usr/bin/emailproxy.py https://raw.githubusercontent.com/simonrob/email-oauth2-proxy/main/emailproxy.py
+RUN curl -o /run/s6/legacy-services/oauth-mail-proxy/emailproxy.py https://raw.githubusercontent.com/simonrob/email-oauth2-proxy/main/emailproxy.py
 
 # Copy root filesystem
 COPY rootfs /
