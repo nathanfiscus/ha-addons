@@ -15,7 +15,7 @@ if bashio::config.has_value 'accounts'; then
     # Loop through each account and append to config file
     for account in $(bashio::config 'accounts'); do
         bashio::log.info "Processing account: $account"
-        email= bashio::jq $account ".email"
+        email= $(bashio::jq $account ".email" -r)
         bashio::log.info "Configuring account for $email"
         permission_url=$(bashio::jq "${account}.permission_url" -r)
         bashio::log.info "Permission URL: $permission_url"
