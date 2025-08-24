@@ -12,8 +12,6 @@ if bashio::config.has_value 'accounts'; then
     echo "" >> "$CONFIG_FILE"
     echo "" >> "$CONFIG_FILE"
     echo "[accounts]" >> "$CONFIG_FILE"
-    CONFIG= bashio::config 'accounts';
-    bashio:log.info "$CONFIG";
     # Loop through each account and append to config file
     for account in $(bashio::config 'accounts'); do
         bashio::log.info "Processing account: $account"
@@ -33,8 +31,7 @@ if bashio::config.has_value 'accounts'; then
         bashio::log.info "Client Secret: ${client_secret:0:4}****" # Only log first 4 chars for security
         
         echo "" >> "$CONFIG_FILE"
-        echo " [[accounts.account]]" >> "$CONFIG_FILE"
-        echo "  email = \"$email\"" >> "$CONFIG_FILE"
+        echo " [$email]" >> "$CONFIG_FILE"
         echo "  permission_url = \"$permission_url\"" >> "$CONFIG_FILE"
         echo "  token_url = \"$token_url\"" >> "$CONFIG_FILE"
         echo "  oauth2_scope = \"$oauth2_scope\"" >> "$CONFIG_FILE"
