@@ -4,20 +4,17 @@
 # s6-overlay docs: https://github.com/just-containers/s6-overlay
 # ==============================================================================
 
-if bashio::config 'debug'; then
-  #p print out the config for debugging purposes
-  bashio::log.info "Current configuration:"
-  bashio::log.info "$(bashio::config)"
-fi
-
 
 #insert the account options into the config file
 if bashio::config.has_value 'accounts'; then
     bashio::log.info "Adding configured accounts to emailproxy.config"
     CONFIG_FILE="/etc/oauth-mail-proxy/emailproxy.config"
+    echo "" >> "$CONFIG_FILE"
+    echo "" >> "$CONFIG_FILE"
     echo "[accounts]" >> "$CONFIG_FILE"
     # Loop through each account and append to config file
     for account in $(bashio::config 'accounts'); do
+        bashio::log.info "Processing account: $account"
         email=$(bashio::jq "${account}.email" -r)
         bashio::log.info "Configuring account for $email"
         permission_url=$(bashio::jq "${account}.permission_url" -r)
@@ -51,7 +48,7 @@ if bashio::config.has_value 'accounts'; then
     fi
 else
     bashio::log.warning "No accounts configured. Please add at least one account in the add-on configuration."
-    exit 1
+    bashio::exit.ok
 fi
 ## Run your program
 exec /usr/bin/oauth-mail-proxy
