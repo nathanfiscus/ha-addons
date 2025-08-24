@@ -41,7 +41,7 @@ if bashio::config.has_value 'accounts'; then
             echo "  client_secret = \"$client_secret\"" >> "$CONFIG_FILE"
         fi
     done
-    if bashio::config.get 'debug'; then
+    if bashio::config.true 'debug'; then
         bashio::log.info "Debug mode is enabled. Current configuration:"
         cat "$CONFIG_FILE"
     fi
