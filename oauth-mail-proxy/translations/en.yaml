@@ -4,4 +4,5 @@ configuration:
     description: The message that will be printed to the log when starting this example add-on.
 network:
   1993/tcp: "IMAP Port"
-  8080/tcp: "OAuth Callback Port"
+  1993/udp: "IMAP Port (UDP)"
+  8080/tcp: "OAuth Callback Port?"
