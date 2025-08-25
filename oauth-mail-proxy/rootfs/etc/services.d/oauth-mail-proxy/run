@@ -21,7 +21,13 @@ if bashio::config.has_value 'accounts'; then
         token_url=$(bashio::jq "${account}" ".token_url")
         bashio::log.info "Token URL: $token_url"
         #convert oauth2_scope json aray to space delimited string
-        oauth2_scope=$(bashio::jq -r "${account}" ".oauth2_scope | join(\" \")")
+        for scope in $(bashio::jq -r "${account}" ".oauth2_scope[]"); do
+            if [ -z "$oauth2_scope" ]; then
+                oauth2_scope="$scope"
+            else
+                oauth2_scope="$oauth2_scope $scope"
+            fi
+        done
         bashio::log.info "OAuth2 Scope: $oauth2_scope"
         redirect_uri=$(bashio::jq "${account}" ".redirect_uri")
         bashio::log.info "Redirect URI: $redirect_uri"
