@@ -39,7 +39,7 @@ schema:
       token_url: str
       oauth2_scope:
         - str
-      redirect_uri: str?
+      redirect_uri: "str?"
       client_id: str
       client_secret: "str?"
       oauth2_flow: "str?"
