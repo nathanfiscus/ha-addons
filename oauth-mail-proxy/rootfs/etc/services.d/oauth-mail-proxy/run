@@ -23,6 +23,8 @@ if bashio::config.has_value 'accounts'; then
         oauth2_scope=$(bashio::jq "${account}" ".oauth2_scope" )
         #remove square brackets and double quotes from scope if they exist
         oauth2_scope=$(echo "$oauth2_scope" | tr -d '[]"')
+        #replace commas with spaces
+        oauth2_scope=$(echo "$oauth2_scope" | tr ',' ' ')
         bashio::log.info "OAuth2 Scope: $oauth2_scope"
         redirect_uri=$(bashio::jq "${account}" ".redirect_uri")
         bashio::log.info "Redirect URI: $redirect_uri"
@@ -30,7 +32,9 @@ if bashio::config.has_value 'accounts'; then
         bashio::log.info "Client ID: $client_id"
         client_secret=$(bashio::jq "${account}" ".client_secret") # May be null
         bashio::log.info "Client Secret: ${client_secret:0:4}****" # Only log first 4 chars for security
-        
+        oauth2_flow=$(bashio::jq "${account}" ".oauth2_flow")
+        bashio::log.info "OAuth2 Flow: $oauth2_flow"
+
         echo "" >> "$CONFIG_FILE"
         echo " [$email]" >> "$CONFIG_FILE"
         echo "  permission_url = \"$permission_url\"" >> "$CONFIG_FILE"
@@ -41,11 +45,10 @@ if bashio::config.has_value 'accounts'; then
         if [ -n "$client_secret" ] && [ "$client_secret" != "null" ]; then
             echo "  client_secret = \"$client_secret\"" >> "$CONFIG_FILE"
         fi
+        if [ -n "$oauth2_flow" ] && [ "$oauth2_flow" != "null" ]; then
+            echo "  oauth2_flow = \"$oauth2_flow\"" >> "$CONFIG_FILE"
+        fi
     done
-    if bashio::config.true 'debug'; then
-        bashio::log.info "Debug mode is enabled. Current configuration:"
-        cat "$CONFIG_FILE"
-    fi
 else
     bashio::log.warning "No accounts configured. Please add at least one account in the add-on configuration."
     bashio::exit.ok
