@@ -40,10 +40,12 @@ if bashio::config.has_value 'accounts'; then
         echo "  permission_url = \"$permission_url\"" >> "$CONFIG_FILE"
         echo "  token_url = \"$token_url\"" >> "$CONFIG_FILE"
         echo "  oauth2_scope = \"$oauth2_scope\"" >> "$CONFIG_FILE"
-        echo "  redirect_uri = \"$redirect_uri\"" >> "$CONFIG_FILE"
         echo "  client_id = \"$client_id\"" >> "$CONFIG_FILE"
         if [ -n "$client_secret" ] && [ "$client_secret" != "null" ]; then
             echo "  client_secret = \"$client_secret\"" >> "$CONFIG_FILE"
+        fi
+        if [ -n "$redirect_uri" ] && [ "$redirect_uri" != "null" ]; then
+            echo "  redirect_uri = \"$redirect_uri\"" >> "$CONFIG_FILE"
         fi
         if [ -n "$oauth2_flow" ] && [ "$oauth2_flow" != "null" ]; then
             echo "  oauth2_flow = \"$oauth2_flow\"" >> "$CONFIG_FILE"
