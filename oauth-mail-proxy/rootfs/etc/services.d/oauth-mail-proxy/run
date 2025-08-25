@@ -22,7 +22,7 @@ if bashio::config.has_value 'accounts'; then
         bashio::log.info "Token URL: $token_url"
         #convert oauth2_scope json aray to space delimited string
         oauth2_array=$(bashio::jq -r "${account}" ".oauth2_scope")
-        for scope in $(bashio::jq $oauth2_array ".[]"); do
+        for scope in $(bashio::jq "${oauth2_array}" ".[]"); do
             if [ -z "$oauth2_scope" ]; then
                 oauth2_scope="$scope"
             else
