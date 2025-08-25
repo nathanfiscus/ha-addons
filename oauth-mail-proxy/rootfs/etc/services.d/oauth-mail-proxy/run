@@ -20,7 +20,8 @@ if bashio::config.has_value 'accounts'; then
         bashio::log.info "Permission URL: $permission_url"
         token_url=$(bashio::jq "${account}" ".token_url")
         bashio::log.info "Token URL: $token_url"
-        oauth2_scope=$(bashio::jq "${account}" ".oauth2_scope" | xargs) # Convert array to space-separated string
+        #convert oauth2_scope json aray to space delimited string
+        oauth2_scope=$(bashio::jq -r "${account}" ".oauth2_scope | join(\" \")")
         bashio::log.info "OAuth2 Scope: $oauth2_scope"
         redirect_uri=$(bashio::jq "${account}" ".redirect_uri")
         bashio::log.info "Redirect URI: $redirect_uri"
