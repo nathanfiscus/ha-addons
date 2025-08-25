@@ -30,8 +30,8 @@ options:
       client_secret: "***"
 ports:
   1993/tcp: 1993
+  1993/udp: 1993
   8080/tcp: 8080
-  80/tcp: 8082
 schema:
   debug: bool
   accounts:
