@@ -28,7 +28,7 @@ LOG_FILE_PATH="/etc/oauth-mail-proxy/emailproxy.log"
 
 
 # Execute the Python script with arguments
-/venv/bin/python /usr/bin/emailproxy.py --no-gui --log-file $LOG_FILE_PATH --config-file /etc/oauth-mail-proxy/emailproxy.config --debug $LOCAL_SERVER_AUTH_VALUE $EXTERNAL_AUTH_VALUE &
+/venv/bin/python /usr/bin/emailproxy.py --log-file $LOG_FILE_PATH --config-file /etc/oauth-mail-proxy/emailproxy.config --debug $LOCAL_SERVER_AUTH_VALUE $EXTERNAL_AUTH_VALUE &
 
 # Wait for the log file to be created
 while [ ! -f $LOG_FILE_PATH ]; do
