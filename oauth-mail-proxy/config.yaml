@@ -1,6 +1,6 @@
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-config
 name: OAuth Mail Proxy
-version: "1.0.42"
+version: "1.1.0"
 slug: oauth-mail-proxy
 description: Mail proxy to allow OAuth authentication with IMAP/SMTP calls
 url: "https://github.com/nathanfiscus/ha-addons/tree/main/oauth-mail-proxy"
@@ -15,16 +15,6 @@ init: false
 map:
   - share:rw
 options:
-  accounts:
-    - email: example@outlook.com
-      permission_url: https://login.microsoftonline.com/common/oauth2/v2.0/authorize
-      token_url: https://login.microsoftonline.com/common/oauth2/v2.0/token
-      oauth2_scope:
-        - https://outlook.office.com/IMAP.AccessAsUser.All
-        - offline_access
-      redirect_uri: http://localhost
-      client_id: "***"
-      client_secret: "***"
   local_auth: false
   debug: false
 ports:
@@ -33,13 +23,3 @@ ports:
 schema:
   local_auth: bool
   debug: bool
-  accounts:
-    - email: str
-      permission_url: str
-      token_url: str
-      oauth2_scope:
-        - str
-      redirect_uri: "str?"
-      client_id: str
-      client_secret: "str?"
-      oauth2_flow: "str?"
