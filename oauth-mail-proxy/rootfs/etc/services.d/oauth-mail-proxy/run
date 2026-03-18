@@ -8,61 +8,17 @@
 mkdir -p /share
 
 #insert the account options into the config file
-if bashio::config.has_value 'accounts'; then
-    bashio::log.info "Adding configured accounts to emailproxy.config"
-    CONFIG_FILE="/etc/oauth-mail-proxy/emailproxy.config"
-    echo "" >> "$CONFIG_FILE"
-    echo "" >> "$CONFIG_FILE"
-    echo "[accounts]" >> "$CONFIG_FILE"
-    # Loop through each account and append to config file
-    for account in $(bashio::config 'accounts'); do
-        email=$(bashio::jq "${account}" ".email")
-        bashio::log.info "Configuring account for $email"
-        permission_url=$(bashio::jq "${account}" ".permission_url")
-        bashio::log.info "Permission URL: $permission_url"
-        token_url=$(bashio::jq "${account}" ".token_url")
-        bashio::log.info "Token URL: $token_url"
-        oauth2_scope=$(bashio::jq "${account}" ".oauth2_scope" )
-        #remove square brackets and double quotes from scope if they exist
-        oauth2_scope=$(echo "$oauth2_scope" | tr -d '[]"')
-        #replace commas with spaces
-        oauth2_scope=$(echo "$oauth2_scope" | tr ',' ' ')
-        bashio::log.info "OAuth2 Scope: $oauth2_scope"
-        redirect_uri=$(bashio::jq "${account}" ".redirect_uri")
-        bashio::log.info "Redirect URI: $redirect_uri"
-        client_id=$(bashio::jq "${account}" ".client_id")
-        bashio::log.info "Client ID: $client_id"
-        client_secret=$(bashio::jq "${account}" ".client_secret") # May be null
-        bashio::log.info "Client Secret: ${client_secret:0:4}****" # Only log first 4 chars for security
-        oauth2_flow=$(bashio::jq "${account}" ".oauth2_flow")
-        bashio::log.info "OAuth2 Flow: $oauth2_flow"
-
-        echo "" >> "$CONFIG_FILE"
-        echo " [$email]" >> "$CONFIG_FILE"
-        echo "  permission_url = \"$permission_url\"" >> "$CONFIG_FILE"
-        echo "  token_url = \"$token_url\"" >> "$CONFIG_FILE"
-        echo "  oauth2_scope = \"$oauth2_scope\"" >> "$CONFIG_FILE"
-        echo "  client_id = \"$client_id\"" >> "$CONFIG_FILE"
-        if [ -n "$client_secret" ] && [ "$client_secret" != "null" ]; then
-            echo "  client_secret = \"$client_secret\"" >> "$CONFIG_FILE"
-        fi
-        if [ -n "$redirect_uri" ] && [ "$redirect_uri" != "null" ]; then
-            echo "  redirect_uri = \"$redirect_uri\"" >> "$CONFIG_FILE"
-        fi
-        if [ -n "$oauth2_flow" ] && [ "$oauth2_flow" != "null" ]; then
-            echo "  oauth2_flow = \"$oauth2_flow\"" >> "$CONFIG_FILE"
-        fi
-    done
-else
-    bashio::log.warning "No accounts configured in addon. Checking for integration config."
-fi
+CONFIG_FILE="/etc/oauth-mail-proxy/emailproxy.config"
 
 # Check for integration-provided account config
 if [ -f "/share/oauth-mail-accounts.ini" ]; then
     bashio::log.info "Appending integration-provided accounts to emailproxy.config"
+    echo "" >> "$CONFIG_FILE"
+    echo "" >> "$CONFIG_FILE"
+    echo "[accounts]" >> "$CONFIG_FILE"
     cat "/share/oauth-mail-accounts.ini" >> "$CONFIG_FILE"
 else
-    bashio::log.warning "No accounts configured in addon or integration. Please configure accounts in the add-on or Home Assistant integration."
+    bashio::log.warning "No accounts configured in addon or integration. Please configure accounts in the Home Assistant integration."
     bashio::exit.ok
 fi
 
