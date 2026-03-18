@@ -20,15 +20,13 @@ if bashio::config.true "debug"; then
 fi
 
 # Check if CACHE_STORE environment variable is set
-# if [ -n "$CACHE_STORE" ]; then
-#     CACHE_STORE_VALUE="--cache-store $CACHE_STORE"
-# fi
+CACHE_STORE_VALUE="--cache-store /share/oauth-mail-tokens"
 
 LOG_FILE_PATH="/etc/oauth-mail-proxy/emailproxy.log"
 
 
 # Execute the Python script with arguments
-/venv/bin/python /usr/bin/emailproxy.py --no-gui --log-file $LOG_FILE_PATH --config-file /etc/oauth-mail-proxy/emailproxy.config $DEBUG_VALUE $LOCAL_SERVER_AUTH_VALUE $EXTERNAL_AUTH_VALUE &
+/venv/bin/python /usr/bin/emailproxy.py --no-gui --log-file $LOG_FILE_PATH --config-file /etc/oauth-mail-proxy/emailproxy.config $DEBUG_VALUE $LOCAL_SERVER_AUTH_VALUE $EXTERNAL_AUTH_VALUE $CACHE_STORE_VALUE &
 
 # Wait for the log file to be created
 while [ ! -f $LOG_FILE_PATH ]; do
